@@ -395,9 +395,15 @@ function! greplace#search(type, ...)
     let pattern = shellescape(pattern)
   endif
 
+
   if a:type == 'grep'
     if filenames == ''
-      let filenames = input('Search in files: ', '*', 'file')
+      if &grepprg =~ '^ag'
+        let default_path_pattern = '.'
+      else
+        let default_path_pattern = '*'
+      endif
+      let filenames = input('Search in files: ', default_path_pattern, 'file')
     endif
   elseif a:type == 'args'
     " Search in all the filenames in the argument list
